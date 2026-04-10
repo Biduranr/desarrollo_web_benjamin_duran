@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>Registro de Miembros</title>
+        <link rel="stylesheet" type="text/css" href="../css/style.css">
+    </head>
+    <body>
+        <div class="main-container">
+            <div id="val-box" class="oculto">
+                <h2 id="val-msg"></h2>
+                <ul id="val-list"></ul>
+            </div>
+            
+            <form id="form-registro">
+                <div class="grupo-input">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre">
+                </div>
+
+                <div class="grupo-input">
+                    <label for="email">Correo electrónico:</label>
+                    <input type="email" id="email" name="email">
+                </div>
+
+                <div class="grupo-input">
+                    <label for="telefono">Número de teléfono:</label>
+                    <input type="tel" id="telefono" name="telefono">
+                </div>
+
+                <label for="tipo-miembro">Tipo de miembro:</label>
+                <select id="tipo-miembro" name="tipo-miembro">
+                    <option value="">Seleccione un tipo</option>
+                    <option value="estudiante">Estudiante</option>
+                    <option value="profesor">Profesor</option>
+                    <option value="administrativo">Administrativo</option>
+                </select>
+
+                <div id="seccion-estudiante" class="oculto">
+                    <div class="grupo-input">
+                        <label for="carrera">Carrera que cursa:</label>
+                        <input type="text" id="carrera" name="carrera">
+                    </div>
+                </div>
+
+                <div id="seccion-profesor" class="oculto">
+                    <div class="grupo-input">
+                        <label for="departamento">Departamento al que pertenece:</label>
+                        <input type="text" id="departamento" name="departamento">
+                    </div>
+                </div>
+
+                <button id="submit-btn" type="button">Enviar</button>
+            </form>
+        </div>
+    <script src="../js/validation.js"></script>  <script src="../js/select.js"></script>
+
+    </body>
+</html>
