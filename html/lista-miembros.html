@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Miembros</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+<body>
+    <div class="main-container">
+        <h1>Lista de Miembros</h1>
+        <table id="tabla-miembros">
+            <thead>
+                <tr>
+                    <th>Nombre</th> 
+                    <th>Correo electrónico</th> 
+                    <th>Número de teléfono</th>
+                    <th>Tipo de miembro</th>
+                    <th>Carrera/Departamento (si es estudiante o profesor)</th>
+                </tr>
+            </thead>
+            <tbody id="cuerpo-tabla">
+                <!-- Aquí se agregarán los miembros registrados -->
+            </tbody>
+            <p id="msje-vacio" class="oculto">No hay miembros registrados todavía .</p>
+        </table>
+
+        <nav>
+            <a href="registro-miembros.html">Registrar nuevo miembro</a> |
+            <a href="index.html">Volver al inicio</a>
+        </nav>
+    </div>
+
+    <script src="../js/display-members.js"></script>
+</body>
+</html>
