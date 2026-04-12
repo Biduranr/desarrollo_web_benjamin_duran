@@ -94,4 +94,17 @@ const validateForm = (event) => {
     }
 }
 
+const cleanErrors = () => {
+    listaErrores.innerHTML = "";
+    cajaErrores.classList.add("oculto");
+}
+
+nombreInput.addEventListener('input', cleanErrors);
+emailInput.addEventListener('input', cleanErrors);
+telefonoInput.addEventListener('input', cleanErrors);
+
+tipoMiembroInput.addEventListener('change', cleanErrors);
+carreraInput.addEventListener('change', cleanErrors);
+deptoInput.addEventListener('change', cleanErrors);
+
 btnRegistrar.addEventListener('click', validateForm);
