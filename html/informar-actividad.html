@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Informar Actividad</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="main-container">
+        <div id="val-box" class="oculto">
+            <h2 id="val-msg">Han ocurrido los siguiente errores:</h2>
+            <ul id="val-list"></ul>
+        </div>
+
+        <h1>Reportar nueva Actividad</h1>
+        <form id="form-actividad" class="formulario">
+            <label for="nombre-miembro">Nombre del miembro:</label>
+            <select id="nombre-miembro" name="nombre-miembro">
+                <option value="">Seleccione un miembro</option>
+                <option value="miembro1">Alexis Sanchez</option>
+                <option value="miembro2">Ronaldinho Gaucho</option>
+                <option value="miembro3">Cristiano Ronaldo</option>
+            </select>
+
+
+            <label for="tipo-actividad">Tipo de actividad:</label>
+            <select id="tipo-actividad" name="tipo-actividad">
+                <option value="">Seleccione un tipo</option>
+                <option value="conferencia">Conferencia</option>
+                <option value="taller">Taller</option>
+                <option value="deportiva">Deportiva</option>
+                <option value="seminario">Seminario</option>
+                <option value="otro">Otro</option>
+            </select>
+
+            <label for="descripcion-actividad">Descripción de la actividad:</label>
+            <textarea id="descripcion-actividad" name="descripcion-actividad" rows="4" 
+            placeholder="Ingrese una breve descripción de la actividad..."></textarea>
+
+            <label for="fecha-actividad">Fecha de la actividad:</label>
+            <input type="date" id="fecha-actividad" name="fecha-actividad">
+
+            <label for="duracion-actividad">Duración de la actividad en horas y minutos:</label>
+            <input type="time" id="duracion-actividad" name="duracion-actividad">
+
+            <label for="foto-video-actividad">Foto o video de la actividad:</label>
+            <input type="file" id="foto-video-actividad" name="foto-video-actividad" accept="image/*,video/*">
+
+            <label for="enlace-relacionado">Enlace relacionado:</label>
+            <input type="url" id="enlace-relacionado" name="enlace-relacionado" placeholder="https://example.com">
+
+            <button type="submit">Informar Actividad</button>
+        </form>
+
+        <nav>
+            <a href="index.html">Volver al inicio</a> |
+            <a href="lista-miembros.html">Ver lista de miembros</a>
+        </nav>
+    </div>
+
+    <script src="../js/actividad.js"></script>
+</body>
+</html>
