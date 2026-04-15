@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Consulta de Métricas</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="main-container">
+        <h1>Consulta de Métricas</h1>
+        <p>Aquí podrás consultar las métricas relacionadas con las actividades reportadas por los miembros del club.</p>
+
+        <p><strong>Total de miembros registrados:</strong> <span id="total-miembros"></span></p>
+
+        <div class="grafico-item">
+            <div class="label-contenedor">
+                <span>Estudiantes</span>
+                <span id="total-estudiantes"></span>
+            </div>
+            <div class="grafico-fondo">
+                <div id="barra-estudiantes" class="barra-color est"></div>
+            </div>
+        </div>
+
+        <div class="grafico-item">
+            <div class="label-contenedor">
+                <span>Profesores</span>
+                <span id="total-profesores"></span>
+            </div>
+            <div class="grafico-fondo">
+                <div id="barra-profesores" class="barra-color prof"></div>
+            </div>
+        </div>
+
+        <div class="grafico-item">
+            <div class="label-contenedor">
+                <span>Administradores</span>
+                <span id="total-administradores"></span>
+            </div>
+            <div class="grafico-fondo">
+                <div id="barra-administradores" class="barra-color admin"></div>
+            </div>
+        </div>
+
+        <label>Distribución total de miembros (proporcional)</label>
+        <div class="grafico-fondo-total">
+            <div id="segmento-estudiantes" class="segmento est"></div>
+            <div id="segmento-profesores" class="segmento prof"></div>
+            <div id="segmento-administradores" class="segmento admin"></div>
+        </div>
+
+        <nav>
+            <a href ='registro-miembros.html'>Registrar nuevo miembro</a> |
+            <a href="lista-miembros.html">Ver lista de miembros</a> |
+            <a href="informar-actividad.html">Reportar nueva actividad</a> |
+            <a href="index.html">Volver al inicio</a>
+        </nav>
+    </div>
+
+    <script src="../js/metricas.js"></script>
+</body>
+</html>

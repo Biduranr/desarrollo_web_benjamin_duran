@@ -92,11 +92,12 @@ tr:hover {
 }
 
 nav {
-    margin-top: 30px;
+    margin-top: 40px;
     padding: 15px;
     background-color: #f4f4f4;
     border-radius: 8px;
     text-align: center;
+    white-space: nowrap;
 }
 
 nav a {
@@ -113,4 +114,65 @@ nav a {
     border: 1px solid #ffeeba;
     border-radius: 5px;
     margin-top: 20px;
+}
+
+.grafico-fondo {
+    background-color: #eee;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    width: 100%;
+    height: 25px;
+}
+
+.barra-color {
+    height: 100%;
+    border-radius: 5px;
+    background-color: #001f3f; 
+    width: 0%; 
+    transition: width 1s ease-in-out; 
+}
+
+.grafico-fondo-total {
+    display: flex; /* Para que los segmentos se pongan uno al lado del otro */
+    width: 100%;
+    height: 35px;
+    background-color: #eeeeee;
+    border-radius: 8px;
+    overflow: hidden; /* Para que los colores no se salgan de las esquinas redondeadas */
+}
+
+.segmento { height: 100%; transition: width 0.8s ease-in-out; }
+.est { background-color: #001f3f; } 
+.prof { background-color: #0074D9; } 
+.admin { background-color: #7FDBFF; } 
+
+.menu-principal {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas */
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.btn-home {
+    display: block;
+    padding: 20px;
+    background-color: #001f3f; /* Azul Beauchef */
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn-home:hover {
+    background-color: #003366;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.tagline {
+    font-style: italic;
+    color: #666;
+    margin-bottom: 20px;
 }
