@@ -30,7 +30,8 @@ const validateFecha = (fecha) => {
 }
 
 const validateFile = (file) => {
-    return file.files.length > 0; 
+    const cantidad = file.files.length;
+    return cantidad >= 1 && cantidad <= 5; 
 }
 
 const validateURL = (url) => {
@@ -46,6 +47,7 @@ const validateActividadForm = (event) => {
     event.preventDefault();
     listaErrores.innerHTML = '';
     cajaErrores.classList.add('oculto');
+    cajaErrores.classList.remove('val-exito');
 
     let errores = [];
 
@@ -70,7 +72,7 @@ const validateActividadForm = (event) => {
     }
 
     if (!validateFile(fotoVideoActividad)) {
-        errores.push('Debe cargar una imagen o video para la actividad.');
+        errores.push('Debe cargar entre 1 y 5 imágenes o videos para la actividad.');
     }
 
     if (!validateURL(enlaceRelacionado.value)) {
@@ -79,14 +81,27 @@ const validateActividadForm = (event) => {
 
     if (errores.length > 0) {
         cajaErrores.classList.remove('oculto');
+        document.getElementById('val-msg').textContent = 'Han ocurrido los siguientes errores:';
         errores.forEach((error) => {
             let li = document.createElement('li');
             li.textContent = error;
             listaErrores.appendChild(li);
         });
     } else {
-        alert('Actividad informada exitosamente.');
-        formActividad.reset();
+        cajaErrores.classList.remove('oculto');
+        cajaErrores.classList.add('val-exito');
+        document.getElementById('val-msg').textContent = 'Registro exitoso.';
+        
+        listaErrores.innerHTML = '';
+        let li = document.createElement('li');
+        li.textContent = 'La actividad ha sido registrada correctamente.';
+        listaErrores.appendChild(li);
+
+        setTimeout(() => {
+            formActividad.reset();
+            cajaErrores.classList.add("oculto");
+            cajaErrores.classList.remove("val-exito");
+        }, 3000);
     }
 }
 
