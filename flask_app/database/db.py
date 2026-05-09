@@ -26,10 +26,10 @@ class Actividad(db.Model):
     __tablename__ = 'actividad'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     miembro_id = db.Column(db.Integer, db.ForeignKey('miembro.id'), nullable=False)
-    dia = db.Column(db.enum('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'), nullable=False)
+    dia = db.Column(db.Enum('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'), nullable=False)
     hora_inicio = db.Column(db.String(5), nullable=False)
     duracion = db.Column(db.String(5), nullable=False)
-    tipo_actividad = db.Column(db.enum('arte', 'deporte', 'tecnologia', 'social', 'recreacion', 'otra'), nullable=False)
+    tipo_actividad = db.Column(db.Enum('arte', 'deporte', 'tecnologia', 'social', 'recreacion', 'otra'), nullable=False)
     nombre = db.Column(db.String(45), nullable=False)
     descripcion = db.Column(db.Text)
 
