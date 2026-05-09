@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Lista de Miembros</title>
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
     <div class="main-container">
@@ -42,10 +42,10 @@
         </table>
 
         <nav>
-            <a href="registro-miembros.html">Registrar nuevo miembro</a> |
-            <a href="informar-actividad.html">Informar nueva actividad</a> |
-            <a href="consulta-metricas.html">Consultar métricas</a> |
-            <a href="index.html">Volver al inicio</a>
+            <a href="{{ url_for('registro_miembros') }}">Registrar nuevo miembro</a> |
+            <a href="{{ url_for('informar_actividad') }}">Informar nueva actividad</a> |
+            <a href="{{ url_for('consulta_metricas') }}">Consultar métricas</a> |
+            <a href="{{ url_for('index') }}">Volver al inicio</a>
         </nav>
 
         <div id="paginacion">
@@ -55,6 +55,6 @@
         </div>
     </div>
 
-    <script src="../js/display-members.js"></script>
+    <script src="{{ url_for('static', filename='js/display-members.js') }}"></script>
 </body>
 </html>

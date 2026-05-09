@@ -14,5 +14,17 @@ def index():
 def registro_miembros():
     return render_template('registro_miembros.html')
 
+@app.route('/lista-miembros')
+def lista_miembros():
+    return render_template('lista_miembros.html')
+
+@app.route('/informar-actividad')
+def informar_actividad():
+    return render_template('informar_actividad.html')
+
+@app.route('/consulta-metricas')
+def consulta_metricas():
+    return render_template('consulta_metricas.html')
+
 if __name__ == '__main__':
     app.run(debug=True)

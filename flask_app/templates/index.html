@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Inicio</title>
-    <link rel="stylesheet" href="../css/style.css">   
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">   
 </head> 
 <body>
     <div class="main-container">
@@ -18,10 +18,10 @@
             </section>
 
             <div class="menu-principal">
-                <a href ='registro-miembros.html' class="btn-home">Registrar nuevo miembro</a>
-                <a href="lista-miembros.html" class="btn-home">Ver lista de miembros</a>
-                <a href="informar-actividad.html" class="btn-home">Reportar nueva actividad</a>
-                <a href="consulta-metricas.html" class="btn-home">Consultar métricas</a>
+                <a href ="{{ url_for('registro_miembros') }}" class="btn-home">Registrar nuevo miembro</a>
+                <a href="{{ url_for('lista_miembros') }}" class="btn-home">Ver lista de miembros</a>
+                <a href="{{ url_for('informar_actividad') }}" class="btn-home">Reportar nueva actividad</a>
+                <a href="{{ url_for('consulta_metricas') }}" class="btn-home">Consultar métricas</a>
             </div>
         </main>
     </div>
