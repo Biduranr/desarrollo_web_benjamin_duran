@@ -11,8 +11,18 @@
             <h2 id="val-msg">Han ocurrido los siguiente errores:</h2>
             <ul id="val-list"></ul>
         </div>
-            
-        <form id="form-registro">
+        
+        {% if errores %}
+        <div id="val-box-server">
+            <h2 style="color: red">Errores de validación:</h2>
+            <ul>
+                {% for error in errores %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        <form id="form-registro" action="{{ url_for('registro_miembros') }}" method="POST">
             <div class="grupo-input">
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre" name="nombre" placeholder="Ej: Ronaldinho Gaucho">
@@ -26,6 +36,23 @@
             <div class="grupo-input">
                 <label for="telefono">Número de teléfono:</label>
                 <input type="tel" id="telefono" name="telefono" placeholder="Ej: 912345678">
+            </div>
+
+            <div class="grupo-input">
+                <label for="region">Región:</label>
+                <select id="region" name="region" onchange="cargarComunas(this.value)">
+                    <option value="">Seleccione una región</option>
+                    {% for region in regiones %}
+                        <option value="{{ region.id }}">{{ region.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="grupo-input">
+                <label for="comuna">Comuna:</label>
+                <select id="comuna" name="comuna" disabled>
+                    <option value="">Seleccione una comuna</option>
+                </select>
             </div>
 
             <div class="grupo-input">

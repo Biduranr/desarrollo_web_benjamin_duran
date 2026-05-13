@@ -88,11 +88,11 @@ const validateForm = (event) => {
             listaErrores.appendChild(li);
         });
     } else {
-        // Si no hay errores, se puede enviar el formulario
-        alert("Formulario válido. Enviando datos...");
-        formulario.reset();
+        formulario.submit();
     }
 }
+
+formulario.addEventListener('submit', validateForm);
 
 const cleanErrors = () => {
     listaErrores.innerHTML = "";

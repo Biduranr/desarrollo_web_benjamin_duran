@@ -19,3 +19,28 @@ const updateSections = () => {
 }
 
 tipoMiembroSelect.addEventListener('change', updateSections);
+
+function cargarComunas(regionId) {
+    const comunaSelect = document.getElementById('comuna');
+    comunaSelect.innerHTML = '<option value="">Cargando...</option>';
+    comunaSelect.disabled = true;
+
+    if (!regionId) {
+        comunaSelect.innerHTML = '<option value="">Seleccione una comuna</option>';
+        return;
+    }
+
+    // Llamada a la ruta que creamos en app.py
+    fetch(`/get-comunas/${regionId}`)
+        .then(response => response.json())
+        .then(data => {
+            comunaSelect.innerHTML = '<option value="">Seleccione una comuna</option>';
+            data.forEach(c => {
+                const option = document.createElement('option');
+                option.value = c.id;
+                option.textContent = c.nombre;
+                comunaSelect.appendChild(option);
+            });
+            comunaSelect.disabled = false;
+        })
+    }

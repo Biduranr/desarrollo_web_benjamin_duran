@@ -1,11 +1,13 @@
 const formActividad = document.getElementById('form-actividad');
 
-const nombreMiembro = document.getElementById('nombre-miembro');
-const tipoActividad = document.getElementById('tipo-actividad');
-const descripcionActividad = document.getElementById('descripcion-actividad');
-const fechaActividad = document.getElementById('fecha-actividad');
-const duracionActividad = document.getElementById('duracion-actividad');
-const fotoVideoActividad = document.getElementById('foto-video-actividad');
+const miembroSelect = document.getElementById('miembro_id');
+const nombreActividad = document.getElementById('nombre');
+const tipoActividad = document.getElementById('tipo_actividad');
+const descripcionActividad = document.getElementById('descripcion');
+const diaActividad = document.getElementById('dia'); 
+const horaInicio = document.getElementById('hora_inicio'); 
+const duracionActividad = document.getElementById('duracion');
+const fotosActividad = document.getElementById('fotos');
 const enlaceRelacionado = document.getElementById('enlace-relacionado');
 
 const cajaErrores = document.getElementById('val-box');
@@ -16,6 +18,10 @@ const validateSelect = (Select) => {
     return true;
 }
 
+const validateNombre = (nombre) => {
+    return nombre.trim().length >= 3 && nombre.trim().length <= 45;
+}
+
 const validateDescripcion = (descripcion) => {
     if (descripcion === "") return false;
 
@@ -24,9 +30,8 @@ const validateDescripcion = (descripcion) => {
     return lengthValid;
 }
 
-const validateFecha = (fecha) => {
-    if (fecha === "" || fecha === null) return false;
-    return true;
+const validateTime = (time) => {
+    return time !== "" && time !== null;
 }
 
 const validateFile = (file) => {
@@ -51,8 +56,12 @@ const validateActividadForm = (event) => {
 
     let errores = [];
 
-    if (!validateSelect(nombreMiembro.value)) {
+    if (!validateSelect(miembroSelect.value)) {
         errores.push('Debe seleccionar un miembro para la actividad.');
+    }
+
+    if (!validateNombre(nombreActividad.value)) {
+        errores.push('El nombre de la actividad debe tener entre 3 y 45 caracteres.');
     }
 
     if (!validateSelect(tipoActividad.value)) {
@@ -63,15 +72,15 @@ const validateActividadForm = (event) => {
         errores.push('La descripción debe tener entre 10 y 500 caracteres.');
     }
 
-    if (!validateFecha(fechaActividad.value)) {
-        errores.push('Debe seleccionar una fecha para la actividad.');
+    if (!validateSelect(diaActividad.value)) {
+        errores.push('Debe seleccionar un día de la semana.');
     }
 
-    if (!validateFecha(duracionActividad.value)) {
-        errores.push('Debe seleccionar una duración para la actividad.');
+    if (!validateTime(horaInicio.value)) {
+        errores.push('Debe ingresar una hora de inicio válida.');
     }
 
-    if (!validateFile(fotoVideoActividad)) {
+    if (!validateFile(fotosActividad)) {
         errores.push('Debe cargar entre 1 y 5 imágenes o videos para la actividad.');
     }
 
@@ -88,20 +97,7 @@ const validateActividadForm = (event) => {
             listaErrores.appendChild(li);
         });
     } else {
-        cajaErrores.classList.remove('oculto');
-        cajaErrores.classList.add('val-exito');
-        document.getElementById('val-msg').textContent = 'Registro exitoso.';
-        
-        listaErrores.innerHTML = '';
-        let li = document.createElement('li');
-        li.textContent = 'La actividad ha sido registrada correctamente.';
-        listaErrores.appendChild(li);
-
-        setTimeout(() => {
-            formActividad.reset();
-            cajaErrores.classList.add("oculto");
-            cajaErrores.classList.remove("val-exito");
-        }, 3000);
+        formActividad.submit();
     }
 }
 
@@ -110,12 +106,12 @@ const cleanErrors = () => {
     cajaErrores.classList.add("oculto");
 };
 
-nombreMiembro.addEventListener('change', cleanErrors);
+nombreActividad.addEventListener('change', cleanErrors);
 tipoActividad.addEventListener('change', cleanErrors);
 descripcionActividad.addEventListener('input', cleanErrors);
-fechaActividad.addEventListener('change', cleanErrors);
-duracionActividad.addEventListener('change', cleanErrors);
-fotoVideoActividad.addEventListener('change', cleanErrors);
+diaActividad.addEventListener('change', cleanErrors);
+horaInicio.addEventListener('change', cleanErrors);
+fotosActividad.addEventListener('change', cleanErrors);
 enlaceRelacionado.addEventListener('input', cleanErrors);
 
 formActividad.addEventListener('submit', validateActividadForm);

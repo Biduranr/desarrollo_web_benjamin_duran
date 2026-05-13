@@ -6,6 +6,18 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">   
 </head> 
 <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flashes">
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" style="padding: 15px; margin: 20px; border-radius: 5px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;">
+                <strong>{{ message }}</strong>
+                <p>Puedes ver los detalles en la <a href="{{ url_for('lista_miembros') }}">lista de miembros</a>.</p>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
     <div class="main-container">
         <header>
             <h1>Bienvenido al Club de Actividades</h1>
@@ -23,6 +35,32 @@
                 <a href="{{ url_for('informar_actividad') }}" class="btn-home">Reportar nueva actividad</a>
                 <a href="{{ url_for('consulta_metricas') }}" class="btn-home">Consultar métricas</a>
             </div>
+
+            <section class="ultimos-miembros">
+                <h2>Últimos 5 miembros registrados</h2>
+                <table class="tabla-miembros">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Comuna</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for miembro in ultimos_miembros %}
+                        <tr>
+                            <td>{{ miembro.nombre }}</td>
+                            <td>{{ miembro.email }}</td>
+                            <td>{{ miembro.comuna.nombre }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="3">No hay miembros registrados.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
         </main>
     </div>
 </body>

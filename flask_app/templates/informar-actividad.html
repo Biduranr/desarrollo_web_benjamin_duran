@@ -7,47 +7,68 @@
 </head>
 <body>
     <div class="main-container">
-        <div id="val-box" class="oculto">
-            <h2 id="val-msg">Han ocurrido los siguiente errores:</h2>
-            <ul id="val-list"></ul>
+        <div id="val-box" class="{{ 'oculto' if not errores else '' }}">
+            <h2 id="val-msg">Han ocurrido los siguientes errores:</h2>
+            <ul id="val-list">
+                {% if errores %}
+                    {% for error in errores %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
         </div>
 
         <h1>Reportar nueva Actividad</h1>
-        <form id="form-actividad" class="formulario">
-            <label for="nombre-miembro">Nombre del miembro:</label>
-            <select id="nombre-miembro" name="nombre-miembro">
+        <form id="form-actividad" class="formulario" action="{{ url_for('informar_actividad') }}" method="POST" enctype="multipart/form-data">
+            <label for="miembro_id">Miembro que reporta:</label>
+            <select id="miembro_id" name="miembro_id">
                 <option value="">Seleccione un miembro</option>
-                <option value="miembro1">Alexis Sanchez</option>
-                <option value="miembro2">Ronaldinho Gaucho</option>
-                <option value="miembro3">Cristiano Ronaldo</option>
+                {% for m in miembros %}
+                <option value="{{ m.id }}" {{ 'selected' if datos and datos.miembro_id|string == m.id|string else '' }}>{{ m.nombre }}</option>
+                {% endfor %}
             </select>
 
+            <label for="nombre">Nombre de la actividad:</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Ej: Taller de Pintura" value="{{ datos.nombre if datos else '' }}">
 
             <label for="tipo-actividad">Tipo de actividad:</label>
             <select id="tipo-actividad" name="tipo-actividad">
                 <option value="">Seleccione un tipo</option>
-                <option value="conferencia">Conferencia</option>
-                <option value="taller">Taller</option>
-                <option value="deportiva">Deportiva</option>
-                <option value="seminario">Seminario</option>
-                <option value="otro">Otro</option>
+                <option value="arte" {{ 'selected' if datos and datos['tipo-actividad'] == 'arte' else '' }}>arte</option>
+                <option value="deporte" {{ 'selected' if datos and datos['tipo-actividad'] == 'deporte' else '' }}>deporte</option>
+                <option value="tecnologia" {{ 'selected' if datos and datos['tipo-actividad'] == 'tecnologia' else '' }}>tecnología</option>
+                <option value="social" {{ 'selected' if datos and datos['tipo-actividad'] == 'social' else '' }}>social</option>
+                <option value="recreacion" {{ 'selected' if datos and datos['tipo-actividad'] == 'recreacion' else '' }}>recreación</option>
+                <option value="otra" {{ 'selected' if datos and datos['tipo-actividad'] == 'otra' else '' }}>otra</option>
             </select>
 
             <label for="descripcion-actividad">Descripción de la actividad:</label>
             <textarea id="descripcion-actividad" name="descripcion-actividad" rows="4" 
-            placeholder="Ingrese una breve descripción de la actividad..."></textarea>
+            placeholder="Ingrese una breve descripción de la actividad...">{{ datos['descripcion-actividad'] if datos else '' }}</textarea>
 
-            <label for="fecha-actividad">Fecha de la actividad:</label>
-            <input type="date" id="fecha-actividad" name="fecha-actividad">
+            <label for="dia">Dia de la semana:</label>
+            <select id="dia" name="dia">
+                <option value="">Seleccione un día</option>
+                <option value="lunes" {{ 'selected' if datos and datos.dia == 'lunes' else '' }}>Lunes</option>
+                <option value="martes" {{ 'selected' if datos and datos.dia == 'martes' else '' }}>Martes</option>
+                <option value="miércoles" {{ 'selected' if datos and datos.dia == 'miércoles' else '' }}>Miércoles</option>
+                <option value="jueves" {{ 'selected' if datos and datos.dia == 'jueves' else '' }}>Jueves</option>
+                <option value="viernes" {{ 'selected' if datos and datos.dia == 'viernes' else '' }}>Viernes</option>
+                <option value="sábado" {{ 'selected' if datos and datos.dia == 'sábado' else '' }}>Sábado</option>
+                <option value="domingo" {{ 'selected' if datos and datos.dia == 'domingo' else '' }}>Domingo</option>
+            </select>
+            
+            <label for="hora-inicio">Hora de inicio:</label>
+            <input type="time" id="hora-inicio" name="hora-inicio" value="{{ datos['hora-inicio'] if datos else '' }}">
 
-            <label for="duracion-actividad">Duración de la actividad en horas y minutos:</label>
-            <input type="time" id="duracion-actividad" name="duracion-actividad">
+            <label for="duracion">Duración de la actividad en horas y minutos:</label>
+            <input type="time" id="duracion" name="duracion" value="{{ datos.duracion if datos else '' }}">
 
-            <label for="foto-video-actividad">Foto o video de la actividad (minimo 1, maximo 5):</label>
-            <input type="file" id="foto-video-actividad" name="foto-video-actividad" accept="image/*,video/*" multiple>
+            <label for="fotos">Foto o video de la actividad (minimo 1, maximo 5):</label>
+            <input type="file" id="fotos" name="fotos" accept="image/*" multiple>
 
             <label for="enlace-relacionado">Enlace relacionado:</label>
-            <input type="url" id="enlace-relacionado" name="enlace-relacionado" placeholder="https://example.com">
+            <input type="url" id="enlace-relacionado" name="enlace-relacionado" placeholder="https://example.com" value="{{ datos['enlace-relacionado'] if datos else '' }}">
 
             <button type="submit">Informar Actividad</button>
         </form>

@@ -9,19 +9,11 @@
     <div class="main-container">
         <h1>Lista de Miembros</h1>
         <div class="controles-lista">
-            <label for="filtro-tipo">Filtrar por:</label>
-            <select id="filtro-tipo">
-                <option value="todos">Todos</option>
-                <option value="Estudiante">Estudiantes</option>
-                <option value="Profesor">Profesores</option>
-                <option value="Administrativo">Administrativos</option>
-            </select>
-
+            
             <label for="ordenar-por">Ordenar por:</label>
-            <select id="ordenar-por">
+            <select id="ordenar-por" onchange="window.location.href='/lista-miembros?sort=' + this.value">
                 <option value="nombre-asc">Nombre (A-Z)</option>
                 <option value="nombre-desc">Nombre (Z-A)</option>
-                <option value="email">Email</option>
             </select>
         </div>
         
@@ -31,12 +23,23 @@
                     <th>Nombre</th> 
                     <th>Correo electrónico</th> 
                     <th>Número de teléfono</th>
-                    <th>Tipo de miembro</th>
-                    <th>Carrera/Departamento (si es estudiante o profesor)</th>
+                    <th>Comuna</th> <th>Fecha de registro</th>
                 </tr>
             </thead>
             <tbody id="cuerpo-tabla">
-                <!-- Aquí se agregarán los miembros registrados -->
+                {% for m in pagination.items %}
+                <tr onclick="window.location.href='/detalle-miembro/{{ m.id }}'" style="cursor:pointer;">
+                    <td>{{ m.nombre }}</td>
+                    <td>{{ m.email }}</td>
+                    <td>{{ m.telefono if m.telefono else 'N/A' }}</td>
+                    <td>{{ m.comuna.nombre }}</td>
+                    <td>{{ m.fecha_registro.strftime('%d/%m/%Y') }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5">No hay miembros registrados todavía.</td>
+                </tr>
+                {% endfor %}
             </tbody>
             <p id="msje-vacio" class="oculto">No hay miembros registrados todavía .</p>
         </table>
@@ -49,9 +52,23 @@
         </nav>
 
         <div id="paginacion">
-            <button id="prev-btn">Anterior</button>
-            <span id="pagina-actual">Página 1</span>
-            <button id="next-btn">Siguiente</button>
+            {% if pagination.has_prev %}
+                <a href="{{ url_for('lista_miembros', page=pagination.prev_num) }}" class="btn-pag">
+                    <button>Anterior</button>
+                </a>
+            {% else %}
+                <button disabled>Anterior</button>
+            {% endif %}
+
+            <span id="pagina-actual">Página {{ pagination.page }} de {{ pagination.pages }}</span>
+
+            {% if pagination.has_next %}
+                <a href="{{ url_for('lista_miembros', page=pagination.next_num) }}" class="btn-pag">
+                    <button>Siguiente</button>
+                </a>
+            {% else %}
+                <button disabled>Siguiente</button>
+            {% endif %}
         </div>
     </div>
 
