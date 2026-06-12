@@ -4,56 +4,22 @@
     <meta charset="UTF-8">
     <title>Consulta de Métricas</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
 </head>
 <body>
     <div class="main-container">
-        <h1>Consulta de Métricas</h1>
-        <p>Aquí podrás consultar las métricas relacionadas con las actividades reportadas por los miembros del club.</p>
 
-        <p><strong>Total de miembros registrados:</strong> <span id="total-miembros"></span></p>
+        <header>
+            <h1>Consulta de Métricas</h1>
+            <p>Aquí podrás consultar las métricas relacionadas con las actividades reportadas por los miembros del club.</p>
+        </header>
 
-        <div class="grafico-item">
-            <div class="label-contenedor">
-                <span>Estudiantes</span>
-                <span id="total-estudiantes"></span>
-            </div>
-            <div class="grafico-fondo">
-                <div id="barra-estudiantes" class="barra-color est"></div>
-            </div>
-        </div>
-
-        <div class="grafico-item">
-            <div class="label-contenedor">
-                <span>Profesores</span>
-                <span id="total-profesores"></span>
-            </div>
-            <div class="grafico-fondo">
-                <div id="barra-profesores" class="barra-color prof"></div>
-            </div>
-        </div>
-
-        <div class="grafico-item">
-            <div class="label-contenedor">
-                <span>Administradores</span>
-                <span id="total-administradores"></span>
-            </div>
-            <div class="grafico-fondo">
-                <div id="barra-administradores" class="barra-color admin"></div>
-            </div>
-        </div>
-
-        <label>Distribución total de miembros (proporcional)</label>
-        <div class="grafico-fondo-total">
-            <div id="segmento-estudiantes" class="segmento est"></div>
-            <div id="segmento-profesores" class="segmento prof"></div>
-            <div id="segmento-administradores" class="segmento admin"></div>
-        </div>
+        <figure id="grafico-lineas" class="grafico-figure"></figure>
+        <figure id="grafico-barras" class="grafico-figure"></figure>
+        <figure id="grafico-torta" class="grafico-figure"></figure>
 
         <nav>
-            <a href="{{ url_for('registro_miembros') }}">Registrar nuevo miembro</a> |
-            <a href="{{ url_for('lista_miembros') }}">Ver lista de miembros</a> |
-            <a href="{{ url_for('informar_actividad') }}">Reportar nueva actividad</a> |
-            <a href="{{ url_for('index') }}">Volver al inicio</a>
+            <a href="{{ url_for('index') }}" class="btn-home">Volver al inicio</a>
         </nav>
     </div>
 

@@ -1,42 +1,45 @@
-const miembros = [
-    { nombre: 'Alexis Sanchez', tipo: 'Estudiante' },
-    { nombre: 'Cristiano Ronaldo', tipo: 'Profesor' },
-    { nombre: 'Lionel Messi', tipo: 'Estudiante' },
-    { nombre: 'Zinedine Zidane', tipo: 'Profesor' },
-    { nombre: 'Ronaldinho Gaucho', tipo: 'Estudiante' },
-    { nombre: 'Kylian Mbappe', tipo: 'Estudiante' },
-    { nombre: 'Claudio Bravo', tipo: 'Administrativo' }
-]
+document.addEventListener('DOMContentLoaded', function() {
+    // Función para cargar las métricas desde el backend
+    fetch('/get-metricas')
+        .then(response => response.json())
+        .then(data => {
+            // Actualizar el total de miembros
+            const dias = data.lineas.map(item => item.fecha);
+            const totalesDias = data.lineas.map(item => item.total);
 
-const renderMetrics = () => {
-    const total = miembros.length;
-    
-    // 1. Contar por tipo usando .filter()
-    const estudiantes = miembros.filter(m => m.tipo === 'Estudiante').length;
-    const profesores = miembros.filter(m => m.tipo === 'Profesor').length;
-    const administrativos = miembros.filter(m => m.tipo === 'Administrativo').length;
+            Highcharts.chart('grafico-lineas', {
+                chart: { type: 'line' },
+                title: { text: 'Cantidad de Miembros registrados por Día' },
+                xAxis: { categories: dias, title: { text: 'Días' } },
+                yAxis: { title: { text: 'Cantidad de Miembros' }, allowDecimals: false },
+                series: [{ name: 'Nuevos Miembros', data: totalesDias, color: '#001f3f' }]
+            });
 
-    // 2. Actualizar los contadores de texto en el HTML
-    document.getElementById('total-miembros').textContent = total;
-    document.getElementById('total-estudiantes').textContent = estudiantes;
-    document.getElementById('total-profesores').textContent = profesores;
-    document.getElementById('total-administradores').textContent = administrativos;
+            const datosTorta = data.torta.map(item => ({ name: item.tipo, y: item.total }));
 
-    // 3. Calcular porcentajes para las barras (evitando división por cero)
-    const pctEst = total > 0 ? (estudiantes / total) * 100 : 0;
-    const pctProf = total > 0 ? (profesores / total) * 100 : 0;
-    const pctAdmin = total > 0 ? (administrativos / total) * 100 : 0;
+            Highcharts.chart('grafico-torta', {
+                chart: { type: 'pie' },
+                title: { text: 'Distribución de Actividades por Tipo' },
+                tooltip: { pointFormat: '{series.name}: <b>{point.y}</b>' },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: { enabled: true, format: '<b>{point.name}</b>: {point.percentage:.1f}%' }
+                    }
+                },
+                series: [{ name: 'Actividades', colorByPoint: true, data: datosTorta }]
+            });
+            const comunas = data.barras.map(item => item.comuna);
+            const totalesComunas = data.barras.map(item => item.total);
 
-    // 4. Aplicar los anchos a las barras CSS
-    document.getElementById('barra-estudiantes').style.width = `${pctEst}%`;
-    document.getElementById('barra-profesores').style.width = `${pctProf}%`;
-    document.getElementById('barra-administradores').style.width = `${pctAdmin}%`;
-
-    // 5. Aplicar a la barra total
-    document.getElementById('segmento-estudiantes').style.width = `${pctEst}%`;
-    document.getElementById('segmento-profesores').style.width = `${pctProf}%`;
-    document.getElementById('segmento-administradores').style.width = `${pctAdmin}%`;
-};
-
-// Ejecutar al cargar la página
-document.addEventListener('DOMContentLoaded', renderMetrics);
+            Highcharts.chart('grafico-barras', {
+                chart: { type: 'column' },
+                title: { text: 'Cantidad de Actividades por Comuna' },
+                xAxis: { categories: comunas, title: { text: 'Comunas' } },
+                yAxis: { title: { text: 'Cantidad de Actividades' }, allowDecimals: false },
+                series: [{ name: 'Actividades', data: totalesComunas, color: '#0074d9' }]
+            });
+        })
+        .catch(error => console.error('Error al cargar las métricas:', error));
+});
