@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy 
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -43,4 +44,12 @@ class Foto(db.Model):
     ruta_archivo = db.Column(db.String(300), nullable=False)
     nombre_archivo = db.Column(db.String(300), nullable=False)
     actividad_id = db.Column(db.Integer, db.ForeignKey('actividad.id'), nullable=False)
+
+class Comentario(db.Model):
+    __tablename__ = 'comentario'
+    id = db.Column(db.Integer, primary_key=True)
+    actividad_id = db.Column(db.Integer, db.ForeignKey('actividad.id'), nullable=False)
+    nombre = db.Column(db.String(80), nullable=False)
+    texto = db.Column(db.String(300), nullable=False)
+    fecha = db.Column(db.DateTime, default=datetime.now)
     
