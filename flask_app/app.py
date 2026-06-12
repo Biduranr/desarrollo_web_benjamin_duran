@@ -3,6 +3,7 @@ from database.db import Miembro, db, Region, Comuna, Actividad, Foto
 import re, os
 from datetime import datetime
 from werkzeug.utils import secure_filename
+from sqlalchemy import func
 
 app = Flask(__name__)
 app.secret_key = "clave_secreta_cc5002_tarea2"
@@ -153,6 +154,40 @@ def informar_actividad():
 @app.route('/consulta-metricas')
 def consulta_metricas():
     return render_template('consulta-metricas.html')
+
+@app.route('/get-metricas')
+def get_metricas():
+    # 1. Gráfico de Líneas: Miembros registrados por día 
+    miembros_por_dia = db.session.query(
+        func.date(Miembro.fecha_registro).label('fecha'),
+        func.count(Miembro.id).label('total')
+    ).group_by(func.date(Miembro.fecha_registro)).all()
+    
+    line_data = [{"fecha": str(row.fecha), "total": row.total} for row in miembros_por_dia]
+
+    # 2. Gráfico de Torta: Total de actividades por tipo 
+    actividades_por_tipo = db.session.query(
+        Actividad.tipo,
+        func.count(Actividad.id).label('total')
+    ).group_by(Actividad.tipo).all()
+
+    pie_data = [{"tipo": row.tipo, "total": row.total} for row in actividades_por_tipo]
+
+    # 3. Gráfico de Barras: Total de actividades registradas por comuna
+    actividades_por_comuna = db.session.query(
+        Comuna.nombre,
+        func.count(Actividad.id).label('total')
+    ).join(Miembro, Actividad.miembro_id == Miembro.id)\
+     .join(Comuna, Miembro.comuna_id == Comuna.id)\
+     .group_by(Comuna.nombre).all()
+
+    bar_data = [{"comuna": row.nombre, "total": row.total} for row in actividades_por_comuna]
+
+    return jsonify({
+        "lineas": line_data,
+        "torta": pie_data,
+        "barras": bar_data
+    })
 
 if __name__ == '__main__':
     app.run(debug=True)
