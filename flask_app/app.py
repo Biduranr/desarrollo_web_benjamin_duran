@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, render_template, request, redirect, url_for, flash
-from database.db import Miembro, db, Region, Comuna, Actividad, Foto
+from database.db import Miembro, db, Region, Comuna, Actividad, Foto, Comentario
 import re, os
 from datetime import datetime
 from werkzeug.utils import secure_filename
@@ -188,6 +188,47 @@ def get_metricas():
         "torta": pie_data,
         "barras": bar_data
     })
+
+@app.route('/api/comentarios/<int:actividad_id>', methods=['GET', 'POST'])
+def api_comentarios(actividad_id):
+    
+    if request.method == 'POST':
+        data = request.get_json()
+        nombre = data.get('nombre', '').strip()
+        texto = data.get('texto', '').strip()
+
+        errores = []
+        if not nombre or len(nombre) > 80 or len(nombre) < 3:
+            errores.append("El nombre es obligatorio y debe tener como máximo 80 caracteres.")
+        if not texto or len(texto) > 300 or len(texto) < 5:
+            errores.append("El texto es obligatorio y debe tener entre 5 y 300 caracteres.")
+
+        if errores:
+            return jsonify({"status": "error", "errores": errores}), 400
+        
+        try:
+            nuevo_comentario = Comentario(
+                actividad_id=actividad_id,
+                nombre=nombre,
+                texto=texto,
+            )
+            db.session.add(nuevo_comentario)
+            db.session.commit()
+            return jsonify({"status": "success", "mensaje": "Comentario guardado exitosamente"}), 201
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({"status": "error", "mensaje": "Hubo un error al guardar el comentario. Por favor, inténtalo de nuevo."}), 500
+    
+    comentarios = Comentario.query.filter_by(actividad_id=actividad_id).order_by(Comentario.fecha.desc()).all()
+
+    lista_comentarios = []
+    for c in comentarios:
+        lista_comentarios.append({
+            "nombre": c.nombre,
+            "texto": c.texto,
+            "fecha": c.fecha.strftime("%d-%m-%y %H:%M:%S")
+        })
+    return jsonify({"status": "success", "comentarios": lista_comentarios})
 
 if __name__ == '__main__':
     app.run(debug=True)
