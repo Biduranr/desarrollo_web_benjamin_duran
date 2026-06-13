@@ -230,5 +230,10 @@ def api_comentarios(actividad_id):
         })
     return jsonify({"status": "success", "comentarios": lista_comentarios})
 
+@app.route('/actividad/<int:id>')
+def ver_actividad(id):
+    actividad = Actividad.query.get_or_404(id)
+    return render_template('informar-actividad.html', actividad=actividad)
+
 if __name__ == '__main__':
     app.run(debug=True)

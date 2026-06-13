@@ -6,6 +6,8 @@ env/
 # Archivos compilados y caché de Python
 __pycache__/
 *.pyc
+flask_app/static/uploads/*
+!flask_app/static/uploads/.gitkeep
 
 # Archivos de configuración de tu IDE (VSCode, PyCharm, DataGrip, etc.)
 .vscode/
@@ -13,7 +15,7 @@ __pycache__/
 
 # Variables de entorno (buenas prácticas de seguridad)
 .env
-
+    
 # Archivos del sistema operativo (si usas macOS o Windows)
 .DS_Store
 Thumbs.db

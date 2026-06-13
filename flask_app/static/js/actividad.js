@@ -115,3 +115,98 @@ fotosActividad.addEventListener('change', cleanErrors);
 enlaceRelacionado.addEventListener('input', cleanErrors);
 
 formActividad.addEventListener('submit', validateActividadForm);
+
+//Logica para mostrar comentarios en la página de actividad
+document.addEventListener('DOMContentLoaded', () => {
+    const formComentario = document.getElementById('form-comentario');
+
+    if (formComentario) {
+        const listaComentarios = document.getElementById('lista-comentarios');
+        const mensajeError = document.getElementById('comentario-error');
+        const contadorComentarios = document.getElementById('contador-comentarios');
+        const actividadId = document.getElementById('actividad-id').value;
+
+        function cargarComentarios() {
+            fetch(`/api/comentarios/${actividadId}`)
+                .then(response => response.json())
+                .then(data => {
+                    listaComentarios.innerHTML = '';
+                    contadorComentarios.textContent = data.comentarios.length;
+
+                    if (data.comentarios.length === 0) {
+                        listaComentarios.innerHTML = '<p>No hay comentarios aún.</p>';
+                        return;
+                    }
+
+                    data.comentarios.forEach(c => {
+                        const card = document.createElement('div');
+                        card.classList.add('comentario-card');
+
+                        const header = document.createElement('div');
+                        header.classList.add('comentario-header');
+
+                        const autor = document.createElement('strong');
+                        autor.classList.add('comentario-autor');
+                        autor.textContent = c.nombre;
+
+                        const fecha = document.createElement('span');
+                        fecha.classList.add('comentario-fecha');
+                        fecha.textContent = c.fecha;
+
+                        header.appendChild(autor);
+                        header.appendChild(fecha);
+
+                        const texto = document.createElement('p');
+                        texto.classList.add('comentario-texto');
+                        texto.textContent = c.texto;
+
+                        card.appendChild(header);
+                        card.appendChild(texto);
+                        listaComentarios.appendChild(card);
+                    });
+                })
+                .catch(error => console.error('Error al cargar comentarios:', error));
+        }
+
+        formComentario.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const nombre = document.getElementById('nombre-comentario').value.trim();
+            const texto = document.getElementById('texto-comentario').value.trim();
+
+            // Validaciones JS del cliente
+            if (nombre.length === 0 || nombre.length > 80) {
+                mensajeError.textContent = "El nombre es obligatorio y debe tener como máximo 80 caracteres.";
+                mensajeError.style.display = "block";
+                return;
+            }
+            if (texto.length < 5) {
+                mensajeError.textContent = "El comentario debe tener como mínimo 5 caracteres.";
+                mensajeError.style.display = "block";
+                return;
+            }
+
+            mensajeError.style.display = "none";
+
+            fetch(`/api/comentarios/${actividadId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nombre: nombre, texto: texto })
+            })
+            .then(response => {
+                if (!response.ok) throw new Error("Error en la validación");
+                return response.json();
+            })
+            .then(data => {
+                formComentario.reset(); 
+                cargarComentarios(); 
+            })
+            .catch(error => {
+                mensajeError.textContent = "Error al guardar el comentario.";
+                mensajeError.style.display = "block";
+            });
+        });
+
+        cargarComentarios();
+    }
+});
